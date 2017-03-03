@@ -2,6 +2,7 @@ import os
 from slackclient import SlackClient
 from flask import Flask, request, Response
 from datetime import datetime
+import die_roller
 
 app = Flask(__name__)
 
@@ -16,23 +17,20 @@ def inbound():
         username = request.form.get('user_name')
         text = request.form.get('text')
         inbound_message = username + " in " + channel + " says: " + text
-#        print(inbound_message)
         if channel == 'test2':
             slack_client.api_call("chat.postMessage", channel="#test2", text="Hello from python!")
-#            send_message(request.form.get('channel_id'), "Hello " + username + "! It worked!")
-    else:
-        slack_client.api_call("chat.postMessage", channel="#test2", text="Somethin' done gone wrong!")
     return Response(), 200
 
 @app.route('/')
 def homepage():
+    die_roller.rollDice("2d20")
     the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
     
     return """
     <h1>Hello heroku</h1>
     <p>It is currently {time}.</p>
     
-    """.format(time=the_time)
+    """.format(time=die_roller)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
