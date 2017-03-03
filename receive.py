@@ -17,7 +17,7 @@ def inbound():
         inbound_message = username + " in " + channel + " says: " + text
         print(inbound_message)
         if channel == 'test2':
-            sc.api_call("chat.postMessage", channel="#test2", text="Hello from python!")
+            slack_client.api_call("chat.postMessage", channel="#test2", text="Hello from python!")
 #            send_message(request.form.get('channel_id'), "Hello " + username + "! It worked!")
     return Response(), 200
 
@@ -26,5 +26,4 @@ def test():
     return Response('It works!')
 
 if __name__ == "__main__":
-    slack_client.api_call("chat.postMessage", channel="#test2", text="Hello from Python!")
-    #app.run(debug=True)
+    app.run(debug=True)
