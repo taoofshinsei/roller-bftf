@@ -18,17 +18,23 @@ def inbound():
         username = request.form.get('user_name')
         text = request.form.get('text')
         diceResults = die_roller.rollDice(text)
-        if channel == 'test2' and diceResults:
-            sumOfResults = 0;
-            stringOfResults = ""
-#            for i in diceResults:
-#                sumOfResults += i
-#                stringOfResults += " %d".format(i)
-#            stringOfResults += ": %d".format(sumOfResults)
-#            slack_client.api_call("chat.postMessage",
-#                channel="#test2",
-#                text=stringOfResults
-#                username=rollerBotName)
+        if diceResults:
+            if channel == 'test2':
+                sumOfResults = 0;
+                stringOfResults = ""
+                for i in diceResults:
+                    sumOfResults += i
+                    stringOfResults += " %d".format(i)
+                stringOfResults += ": %d".format(sumOfResults)
+                slack_client.api_call("chat.postMessage",
+                    channel="#test2",
+                    text=stringOfResults
+                    username=rollerBotName)
+        else:
+            slack_client.api_call("chat.postMessage",
+                channel="#test2",
+                text="Could not parse " + text "."
+                username=rollerBotName)
     return Response(), 200
 
 @app.route('/')
