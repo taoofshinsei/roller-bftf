@@ -4,6 +4,8 @@ from flask import Flask, request, Response
 app = Flask(__name__)
 
 SLACK_WEBHOOK_SECRET = os.environ.get('SLACK_WEBHOOK_SECRET')
+SLACK_TOKEN = os.environ.get('SLACK_TOKEN', None)
+slack_client = SlackClient(SLACK_TOKEN)
 
 @app.route('/slack', methods=['POST'])
 def inbound():
@@ -23,4 +25,5 @@ def test():
     return Response('It works!')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    slack_client.api_call("chat.postMessage", channel="#test2", text="Hello from Python!")
+    #app.run(debug=True)
