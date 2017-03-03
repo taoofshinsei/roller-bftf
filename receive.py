@@ -1,6 +1,7 @@
 import os
 from slackclient import SlackClient
 from flask import Flask, request, Response
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -23,9 +24,15 @@ def inbound():
         slack_client.api_call("chat.postMessage", channel="#test2", text="Somethin' done gone wrong!")
 #    return Response(), 200
 
-@app.route('/', methods=['GET'])
-def test():
-    return Response('It works!')
+@app.route('/')
+def homepage():
+    the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
+    
+    return """
+    <h1>Hello heroku</h1>
+    <p>It is currently {time}.</p>
+    
+    """.format(time=the_time)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=True)
