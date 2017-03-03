@@ -23,14 +23,14 @@ def inbound():
 
 @app.route('/')
 def homepage():
-    die_roller.rollDice("2d20")
+    diceResults = die_roller.rollDice("2d20")
     the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
     
     return """
     <h1>Hello heroku</h1>
     <p>It is currently {time}.</p>
     
-    """.format(time=die_roller)
+    """.format(time=diceResults)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
