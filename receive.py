@@ -14,7 +14,8 @@ def inbound():
         inbound_message = username + " in " + channel + " says: " + text
         print(inbound_message)
         if channel == 'test2':
-            send_message(request.form.get('channel_id'), "Hello " + username + "! It worked!")
+            sc.api_call("chat.postMessage", channel="#test2", text="Hello from python!")
+#            send_message(request.form.get('channel_id'), "Hello " + username + "! It worked!")
     return Response(), 200
 
 @app.route('/', methods=['GET'])
