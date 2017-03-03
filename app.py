@@ -18,7 +18,7 @@ def inbound():
         username = request.form.get('user_name')
         text = request.form.get('text')
         diceResults = die_roller.rollDice(text)
-        if channel == 'test2' && diceResults:
+        if channel == 'test2' and diceResults:
             sumOfResults = 0;
             stringOfResults = ""
 #            for i in diceResults:
