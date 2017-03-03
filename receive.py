@@ -21,7 +21,7 @@ def inbound():
 #            send_message(request.form.get('channel_id'), "Hello " + username + "! It worked!")
     else:
         slack_client.api_call("chat.postMessage", channel="#test2", text="Somethin' done gone wrong!")
-    return Response(), 200
+#    return Response(), 200
 
 @app.route('/', methods=['GET'])
 def test():
