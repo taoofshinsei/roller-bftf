@@ -9,6 +9,7 @@ app = Flask(__name__)
 SLACK_WEBHOOK_SECRET = os.environ.get('SLACK_WEBHOOK_SECRET')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN', None)
 slack_client = SlackClient(SLACK_TOKEN)
+rollerBotName = "RollerBot"
 
 @app.route('/roll', methods=['POST'])
 def inbound():
@@ -16,9 +17,18 @@ def inbound():
         channel = request.form.get('channel_name')
         username = request.form.get('user_name')
         text = request.form.get('text')
-        inbound_message = username + " in " + channel + " says: " + text
-        if channel == 'test2':
-            slack_client.api_call("chat.postMessage", channel="#test2", text="Hello from python!")
+        diceResults = die_roller.rollDice(text)
+        if channel == 'test2' && diceResults:
+            sumOfResults = 0;
+            stringOfResults = ""
+            for i in diceResults:
+                sumOfResults += i
+                stringOfResults += " %d".format(i)
+            stringOfResults += ": %d".format(sumOfResults)
+            slack_client.api_call("chat.postMessage",
+                channel="#test2",
+                text=stringOfResults
+                username=rollerBotName)
     return Response(), 200
 
 @app.route('/')
