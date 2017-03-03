@@ -1,1 +1,1 @@
-web: python receive.py
+web: gunicorn python receive.py
