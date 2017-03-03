@@ -27,12 +27,12 @@ def inbound():
                     stringOfResults += " {result}".format(result=i)
                 stringOfResults += ": {result}".format(result=sumOfResults)
                 slack_client.api_call("chat.postMessage",
-                    channel="#test2",
+                    channel="#" + channel,
                     text=stringOfResults,
                     username=rollerBotName)
         else:
             slack_client.api_call("chat.postMessage",
-                channel="#test2",
+                channel="#" + channel,
                 text="Could not parse " + text + ".",
                 username=rollerBotName)
     return Response(), 200
