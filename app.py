@@ -1,42 +1,39 @@
 import os
 from slackclient import SlackClient
+from flask import Flask, request, Response
+from datetime import datetime
 
+app = Flask(__name__)
+
+SLACK_WEBHOOK_SECRET = os.environ.get('SLACK_WEBHOOK_SECRET')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN', None)
-
 slack_client = SlackClient(SLACK_TOKEN)
 
-def list_channels():
-    channels_call = slack_client.api_call("channels.list")
-    if channels_call.get('ok'):
-        return channels_call['channels']
-    return None
+#@app.route('/roll', methods=['POST'])
+#def inbound():
+#    if request.form.get('token') == SLACK_WEBHOOK_SECRET:
+#        channel = request.form.get('channel_name')
+#        username = request.form.get('user_name')
+#        text = request.form.get('text')
+#        inbound_message = username + " in " + channel + " says: " + text
+#        print(inbound_message)
+#        if channel == 'test2':
+#            slack_client.api_call("chat.postMessage", channel="#test2", text="Hello from python!")
+#            send_message(request.form.get('channel_id'), "Hello " + username + "! It worked!")
+#    else:
+#        slack_client.api_call("chat.postMessage", channel="#test2", text="Somethin' done gone wrong!")
+#    return Response(), 200
 
-def channel_info(channel_id):
-    channel_info = slack_client.api_call("channels.info", channel=channel_id)
-    if channel_info:
-        return channel_info['channel']
-    return None
-
-def send_message(channel_id, message):
-    slack_client.api_call(
-        "chat.postMessage",
-        channel=channel_id,
-        text=message,
-        username='pythonbot',
-        icon_emoji=':robot_face:')
+@app.route('/')
+def homepage():
+    return 'Hello, World!'
+#    the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
+#    
+#    return """
+#    <h1>Hello heroku</h1>
+#    <p>It is currently {time}.</p>
+#    
+#    """.format(time=the_time)
 
 if __name__ == '__main__':
-    channels = list_channels()
-    if channels:
-        print("Channels: ")
-        for channel in channels:
-            print(channel['name'] + " (" + channel['id'] + ")")
-            detailed_info = channel_info(channel['id'])
-            if detailed_info:
-                print('Latest text from ' + channel['name'] + ":")
-                print(detailed_info['latest']['text'])
-            if channel['name'] == 'test2':
-                send_message(channel['id'], "Hello " + channel['name'] + "! It worked!")
-        print('-----')
-    else:
-        print("Unable to authenticate.")
+    app.run(debug=True, use_reloader=True)
