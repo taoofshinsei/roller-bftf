@@ -24,8 +24,8 @@ def inbound():
                 stringOfResults = ""
                 for i in diceResults:
                     sumOfResults += i
-                    stringOfResults += " " + i
-                stringOfResults = ": " + sumOfResults
+                    stringOfResults += " {result}".format(result=i)
+                stringOfResults += ": {result}".format(result=sumOfResults)
                 slack_client.api_call("chat.postMessage",
                     channel="#test2",
                     text=stringOfResults,
