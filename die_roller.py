@@ -4,9 +4,12 @@ import random
 def rollDice(diceString):
     rollInformation = parseString(diceString)
     rollResults = []
-    for i in range(rollInformation[0]):
-        rollResults.append(random.randint(1, rollInformation[1]))
-    return rollResults
+    if rollInformation:
+        for i in range(rollInformation[0]):
+            rollResults.append(random.randint(1, rollInformation[1]))
+        return rollResults
+    else:
+        return None
 
 #Currently assumes a structure of "xdy"
 def parseString(diceString):

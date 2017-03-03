@@ -21,7 +21,7 @@ def inbound():
         if diceResults:
             if channel == 'test2':
                 sumOfResults = 0;
-                stringOfResults = ""
+                stringOfResults = "@" + username + " rolling " + text + ":"
                 for i in diceResults:
                     sumOfResults += i
                     stringOfResults += " {result}".format(result=i)
