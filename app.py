@@ -10,6 +10,9 @@ SLACK_WEBHOOK_SECRET = os.environ.get('SLACK_WEBHOOK_SECRET')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN', None)
 slack_client = SlackClient(SLACK_TOKEN)
 rollerBotName = "RollerBot"
+username = ""
+text = ""
+stringOfResults = ""
 
 @app.route('/roll', methods=['POST'])
 def inbound():
@@ -22,10 +25,19 @@ def inbound():
             if channel == 'test2':
                 sumOfResults = 0;
                 stringOfResults = "@" + username + " rolling " + text + ":"
-                for i in diceResults:
+                for i in diceResults[:-1]:
                     sumOfResults += i
                     stringOfResults += " {result}".format(result=i)
-                stringOfResults += ": {result}".format(result=sumOfResults)
+                sumOfResults += diceResults[-1]
+                if diceResults[-1] >= 0:
+                    stringOfResults += " with Modifier +{result}".format(result=diceResults[-1])
+                else:
+                    stringOfResults += " with Modifier {result}".format(result=diceResults[-1])
+                slack_client.api_call("chat.postMessage",
+                    channel="#" + channel,
+                    text=stringOfResults,
+                    username=rollerBotName)
+                stringOfResults = "Final result of rolling " + text + ": {result}".format(result=sumOfResults)
                 slack_client.api_call("chat.postMessage",
                     channel="#" + channel,
                     text=stringOfResults,
@@ -39,14 +51,11 @@ def inbound():
 
 @app.route('/')
 def homepage():
-    diceResults = die_roller.rollDice("2d20")
-    the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
-    
     return """
-    <h1>Hello heroku</h1>
-    <p>It is currently {time}.</p>
+    <h1>{uname}</h1>
+    <p>{results}.</p>
     
-    """.format(time=diceResults)
+    """.format(uname = username, results=stringOfResults)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
