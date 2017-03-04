@@ -27,17 +27,17 @@ def inbound():
                 stringOfResults = "@" + username + " rolling " + text + ": `"
                 for i in diceResults[:-1]:
                     sumOfResults += i
-                    stringOfResults += " *{result}*".format(result=i)
+                    stringOfResults += "{result} ".format(result=i)
                 sumOfResults += diceResults[-1]
                 if diceResults[-1] >= 0:
-                    stringOfResults += " {result}`".format(result=diceResults[-1])
+                    stringOfResults += "+{result}`".format(result=diceResults[-1])
                 else:
-                    stringOfResults += " {result}`".format(result=diceResults[-1])
+                    stringOfResults += "{result}`".format(result=diceResults[-1])
 #                slack_client.api_call("chat.postMessage",
 #                    channel="#" + channel,
 #                    text=stringOfResults,
 #                    username=rollerBotName)
-                stringOfResults += "\nFinal result of rolling " + text + ": *{result}*".format(result=sumOfResults)
+                stringOfResults += "\nFinal result of rolling " + text + ": `{result}`".format(result=sumOfResults)
                 slack_client.api_call("chat.postMessage",
                     channel="#" + channel,
                     text=stringOfResults,
