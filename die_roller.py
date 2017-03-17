@@ -1,7 +1,7 @@
 import re
 from random import randint
 
-RAW_PATTERN = "((?P<_purpose>[A-Za-z]*)\s)?(?P<_dice>(?:\d+d\d+\s?)+)(?P<_mods>(\s?[+-]\d+)*)$"
+RAW_PATTERN = "((?P<_purpose>[A-Za-z]*)\s)?(?P<_dice>(?:\d+d\d+[\s,]?)+)(?P<_mods>([\s,]?[+-]\d+)*)$"
 
 #Given a string formatted like "Attack 2d20 [3d10] [+-]a...[+-]z", 
 #rolls the requested number of dice and sums the modifiers
