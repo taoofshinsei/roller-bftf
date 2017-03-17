@@ -19,13 +19,7 @@ def inbound():
         username = request.form.get('user_name', '')
         text = request.form.get('text', '')
         if text == "help":
-            msg = """
-            /roll generates a random dice roll result with arbitrary modifiers.\n
-            `/roll <name> <dice>... <modifiers>...`\n
-            >*name:* String name of the roll i.e. "attack", "damage", "perception"\n
-            >*dice:* A list of space or comma seperated dice to roll i.e. "2d10,5d4"\n
-            >*modifiers:* A list of modifiers i.e. "+3-4", "+3 -4", "+3,-4"
-            """
+            msg = """/roll generates a random dice roll result with arbitrary modifiers.\n`/roll <name> <dice>... <modifiers>...`\n>*name:* String name of the roll i.e. `attack`, `damage`, `perception`\n>*dice:* A list of space or comma seperated dice to roll i.e. `2d10,5d4`\n>*modifiers:* A list of modifiers i.e. `+3-4`, `+3 -4`, `+3,-4`"""
         else:
             try:
                 roller = Roll(text)
