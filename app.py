@@ -20,7 +20,7 @@ def inbound():
         try:
             roller = Roll(text)
             mod = "`{}{}`".format("+" if roller.mod > 0 else "", roller.mod)
-            dice = ["*{}d{}:* `{}`".format(c, d, " ".join(list(map(str,v))) for c,d,v in roller.results]
+            dice = ["*{}d{}:* `{}`".format(c, d, " ".join(list(map(str,v)))) for c,d,v in roller.results]
             msg =  "@{} rolls {} {}\n".format(username, " and ".join(dice), mod if roller.mod else '')
             msg += ">{}".format(roller)
         except ValueError as exp:
